@@ -4,7 +4,7 @@ import { AuthContext } from "../providers/AuthProvider";
 export const useAuth = () => {
   try {
     const contextValue = useContext(AuthContext);
-    if (!contextValue) console.log("No context value found");
+    if (!contextValue) throw new Error("No context value found");
     return contextValue;
   }
   catch (err) {

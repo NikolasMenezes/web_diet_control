@@ -1,7 +1,12 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 
-export const AuthContext = createContext({});
+interface AuthContextProps {
+  token: string | null;
+  setToken: (token: string) => void;
+}
+
+export const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken_] = useState(localStorage.getItem("token"));
@@ -20,9 +25,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [token]);
 
-
   return (
-    <AuthContext.Provider value={[token, setToken]}>
+    <AuthContext.Provider value={{ token, setToken }}>
       {children}
     </AuthContext.Provider>
   );

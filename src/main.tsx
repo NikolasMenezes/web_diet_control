@@ -8,13 +8,16 @@ import SignUp from './pages/SignUp.tsx'
 import SignIn from './pages/SignIn.tsx'
 import Home from './pages/Home.tsx'
 import AuthProvider from './providers/AuthProvider.tsx'
+import UserProvider from './providers/UserProvider.tsx'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
       <AuthProvider>
-        <App />
+        <UserProvider>
+          <App />
+        </UserProvider>
       </AuthProvider>
     ),
     children: [
