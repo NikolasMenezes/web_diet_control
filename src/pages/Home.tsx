@@ -1,33 +1,34 @@
-import axios from "axios"
-import { useEffect } from "react"
-import { useAuth } from "../hooks/useAuthContext"
-import { URL_BASE_API } from "../constants/api"
-import { useUserContext } from "../hooks/useUserContext"
+import axios from "axios";
+import { useEffect } from "react";
+import { useAuth } from "../hooks/use-auth";
+import { URL_BASE_API } from "../constants/api";
+import { useUserContext } from "../hooks/use-user";
+import { Header } from "../components/header";
 
-const Home = () => {
+export function Home() {
+  const authContext = useAuth();
+  const userContext = useUserContext();
 
-  const authContext = useAuth()
-  const userContext = useUserContext()
+  if (!userContext)
+    throw new Error("useUserContext must be used within a UserContextProvider");
 
   useEffect(() => {
     const getUSerInfo = async () => {
-      const request = await axios.create({baseURL: URL_BASE_API})
-      .get("/user")
+      const request = await axios
+        .create({ baseURL: URL_BASE_API })
+        .get("/user");
 
-      if(request.status === 200) {
-        userContext?.setUser(request.data)
+      if (request.status === 200) {
+        userContext?.setUser(request.data);
       }
-    }
+    };
 
-    getUSerInfo()
-  }, [authContext])
+    getUSerInfo();
+  }, [authContext]);
 
   return (
     <div>
-      <h1>Home</h1>
-      <p>Hi, {userContext?.user.name}</p>
+      <Header />
     </div>
-  )
+  );
 }
-
-export default Home
