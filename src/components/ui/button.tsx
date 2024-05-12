@@ -2,7 +2,7 @@ import { ComponentProps } from 'react'
 import { tv, type VariantProps } from 'tailwind-variants'
 
 const button = tv({
-  base: 'disabled:opacity-50 font-medium rounded-md dark:text-white duration-300',
+  base: 'disabled:opacity-50 font-medium rounded-md text-white duration-300',
 
   variants: {
     variant: {
@@ -30,6 +30,6 @@ export interface ButtonProps
   extends ComponentProps<'button'>,
     VariantProps<typeof button> {}
 
-export function Button({ className, variant, size, ...props }: ButtonProps) {
-  return <button {...props} className={button({ variant, size, className })} />
+export function Button({ className, variant, size, children, ...props }: ButtonProps) {
+  return <button {...props} className={button({ variant, size, className })} >{children}</button>
 }
