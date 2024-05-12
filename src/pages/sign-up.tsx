@@ -1,12 +1,12 @@
 import { FormEvent, useRef } from "react";
-import LabelInputGroup from "../components/ui/input/input-label";
 import { Button } from "../components/ui/button";
-import { FaRegUser } from "react-icons/fa6";
-import { CiMail } from "react-icons/ci";
-import { MdLockOutline, MdLockReset } from "react-icons/md";
+import ImageTheme from "../assets/svg/signUp/sign-up-image.svg";
 import axios from "axios";
 import { URL_BASE_API } from "../constants/api";
 import { Link } from "react-router-dom";
+import { BsPersonBadge } from "react-icons/bs";
+import { BiLock, BiMailSend } from "react-icons/bi";
+import { Input } from "@/components/ui/input";
 
 export function SignUp() {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -40,42 +40,47 @@ export function SignUp() {
   };
 
   return (
-    <main>
-      <form onClick={handleSignUp}>
-        <h3>Sign Up</h3>
-        <LabelInputGroup
-          icon={<FaRegUser />}
-          inputType="email"
-          reference={nameRef}
-          labelText="Name"
-        />
-        <LabelInputGroup
-          icon={<CiMail />}
-          inputType="email"
-          reference={emailRef}
-          labelText="Email"
-        />
-        <LabelInputGroup
-          icon={<MdLockOutline />}
-          inputType="password"
-          reference={passwordRef}
-          labelText="Your password"
-        />
-        <LabelInputGroup
-          icon={<MdLockReset />}
-          inputType="password"
-          reference={confirmPasswordRef}
-          labelText="Confirm password"
-        />
-        <Button type="submit">Sign Up</Button>
-      </form>
-
-      <Link
-        to="/"
-        className="hover:underline hover:text-violet-600 duration-200"
+    <main className="min-h-screen bg-zinc-100 dark:bg-zinc-950 dark:text-zinc-100 flex items-center justify-center">
+      <div
+        id="container"
+        className="flex flex-col md:flex-row justify-center items-center gap-5 md:gap-60 p-8 h-3/4 max-w-7xl w-3/4 "
       >
-        Already have an account? Sign In
-      </Link>
+        <img
+          src={ImageTheme}
+          className="aspect-square w-[200px] h-[200px] md:w-[350px] md:h-[350px]"
+        />
+        <div>
+          <form onClick={handleSignUp} className="flex flex-col gap-3 mb-3">
+            <h3 className="font-medium text-purple-500 text-center text-xl">
+              Sign up
+            </h3>
+            <div className="flex flex-col gap-2">
+              <Input.Label icon={BiMailSend} labelText="email" />
+              <Input.Root type="email" />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Input.Label icon={BsPersonBadge} labelText="Name" />
+              <Input.Root type="email" />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Input.Label icon={BiLock} labelText="password" />
+              <Input.Root type="password" />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Input.Label icon={BiLock} labelText="confirm password" />
+              <Input.Root type="password" />
+            </div>
+            <Button type="submit">Sign Up</Button>
+          </form>
+
+          <Link
+            to="/"
+            className="hover:underline hover:text-violet-600 duration-200"
+          >
+            Already have an account? Sign In
+          </Link>
+        </div>
+      </div>
     </main>
   );
 }
