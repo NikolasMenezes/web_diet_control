@@ -1,27 +1,15 @@
-import CustomInput from "./input-root";
-import { MutableRefObject } from "react";
+import { ComponentProps, ElementType } from "react";
 
-interface LabelInputGroupProps {
+interface LabelInputGroupProps extends ComponentProps<"label"> {
   labelText: string;
-  inputType: string;
-  icon: JSX.Element;
-  reference: MutableRefObject<HTMLInputElement | null>;
+  icon: ElementType;
 }
 
-const LabelInputGroup = ({
-  icon,
-  inputType,
-  labelText,
-  reference,
-}: LabelInputGroupProps) => {
+export function InputLabel({ icon: Icon, labelText }: LabelInputGroupProps) {
   return (
-    <label>
-      <span>
-        {icon} {labelText}
-      </span>
-      <CustomInput type={inputType} reference={reference} />
+    <label className="flex gap-3 items-center capitalize font-medium">
+      <Icon className="w-5" />
+      {labelText}
     </label>
   );
-};
-
-export default LabelInputGroup;
+}
