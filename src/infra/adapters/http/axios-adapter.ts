@@ -1,10 +1,9 @@
-import axios, { type AxiosError, type AxiosHeaders, type AxiosResponse } from "axios";
-import { URL_BASE_API } from "../../constants/api";
+import axios, { AxiosHeaders, type AxiosError, type AxiosResponse } from "axios";
 
 type requestPayload = {
   endpoint: string,
   method: string,
-  headers: AxiosHeaders,
+  headers: any,
   body: string
 }
 
@@ -18,7 +17,7 @@ export class AxiosHttpClientAdapter implements HttpClient {
 
     try {
       axiosResponse = await axios.request({
-        url: URL_BASE_API + endpoint,
+        url: "http://localhost:3408/api" + endpoint,
         method,
         headers,
         data: body
