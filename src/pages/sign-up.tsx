@@ -1,6 +1,6 @@
 import { Button } from "../components/ui/button";
 import ImageTheme from "../assets/svg/signUp/sign-up-image.svg";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { BsPersonBadge } from "react-icons/bs";
 import { BiLock, BiMailSend } from "react-icons/bi";
 import { Input } from "@/components/ui/input";
@@ -31,21 +31,31 @@ const createUserSchema = z
 type CreateUserSchemaType = z.infer<typeof createUserSchema>;
 
 export function SignUp() {
+  const navigate = useNavigate();
+
   const {
     handleSubmit,
     register,
     formState: { errors },
+    reset,
   } = useForm<CreateUserSchemaType>({
     resolver: zodResolver(createUserSchema),
   });
 
-  const { mutate, isPending } = useMutation({
+  const { mutateAsync, isPending, isSuccess, isError } = useMutation({
     mutationFn: userService.create,
     mutationKey: ["create-user"],
+    onSuccess: () => {
+      reset();
+      setTimeout(() => navigate("/", { replace: true }), 2000);
+    },
+    onError: () => {
+      alert("Something went wrong!");
+    },
   });
 
-  function handleSignUp({ email, name, password }: CreateUserSchemaType) {
-    mutate({ email, name, password });
+  async function handleSignUp({ email, name, password }: CreateUserSchemaType) {
+    await mutateAsync({ email, name, password, isPremium: false });
   }
 
   return (

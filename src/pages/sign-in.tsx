@@ -9,7 +9,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { authService } from "@/infra/services/api/auth";
-import { httpClientFactory } from "@/infra/factory/http-client-factory";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please provide an valid email" }),
