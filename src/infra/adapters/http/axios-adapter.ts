@@ -24,8 +24,8 @@ export class AxiosHttpClientAdapter implements HttpClient {
       })
     }
     catch (error) {
-      let _error = error as AxiosError<{ message: string }>
-      throw new Error(_error?.response?.data?.message);
+      let _error = error as AxiosError<{ error: string }>
+      throw new Error(_error?.response?.data.error);
     }
 
     return {

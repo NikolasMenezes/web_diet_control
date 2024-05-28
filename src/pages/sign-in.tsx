@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { authService } from "@/infra/services/api/auth";
+import { useToast } from "@/hooks/use-toast";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please provide an valid email" }),
@@ -19,11 +20,13 @@ type loginSchemaType = z.infer<typeof loginSchema>;
 
 export function SignIn() {
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const {
     handleSubmit,
     register,
     formState: { errors },
+    reset,
   } = useForm<loginSchemaType>({
     resolver: zodResolver(loginSchema),
   });
@@ -34,8 +37,23 @@ export function SignIn() {
     onMutate: (data) => {
       console.log(data);
     },
+    onSuccess: () => {
+      reset();
+      toast({
+        title: "Success!",
+        description: "Account created succesfully!",
+        type: "background",
+        variant: "success",
+      });
+      setTimeout(() => navigate("/", { replace: true }), 2000);
+    },
     onError: (error) => {
-      console.log("error", error);
+      toast({
+        title: "Oops! Something went wrong!",
+        description: error.message,
+        type: "background",
+        variant: "destructive",
+      });
     },
   });
 

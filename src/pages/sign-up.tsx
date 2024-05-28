@@ -1,6 +1,6 @@
 import { Button } from "../components/ui/button";
 import ImageTheme from "../assets/svg/signUp/sign-up-image.svg";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsPersonBadge } from "react-icons/bs";
 import { BiLock, BiMailSend } from "react-icons/bi";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { userService } from "@/infra/services/api/user";
+import { useToast } from "@/hooks/use-toast";
 
 const createUserSchema = z
   .object({
@@ -32,6 +33,7 @@ type CreateUserSchemaType = z.infer<typeof createUserSchema>;
 
 export function SignUp() {
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const {
     handleSubmit,
@@ -42,15 +44,26 @@ export function SignUp() {
     resolver: zodResolver(createUserSchema),
   });
 
-  const { mutateAsync, isPending, isSuccess, isError } = useMutation({
+  const { mutateAsync, isPending } = useMutation({
     mutationFn: userService.create,
     mutationKey: ["create-user"],
     onSuccess: () => {
       reset();
+      toast({
+        title: "Success!",
+        description: "Account created succesfully!",
+        type: "background",
+        variant: "success",
+      });
       setTimeout(() => navigate("/", { replace: true }), 2000);
     },
-    onError: () => {
-      alert("Something went wrong!");
+    onError: (data) => {
+      toast({
+        title: "Oops! Something went wrong!",
+        description: data.message,
+        type: "background",
+        variant: "destructive",
+      });
     },
   });
 
